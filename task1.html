@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        #datePicker {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1em;
+        }
+        
+        #countdown {
+            font-size: 2em;
+            color: #333;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+    </style>
+</head>
+<body>
+
+<h1>Countdown Timer</h1>
+
+<div>
+    <label for="datePicker">Select a Date: </label>
+    <input type="date" id="datePicker" onchange="updateCountdown()">
+</div>
+
+<div id="countdown"></div>
+
+<script>
+    function updateCountdown() {
+        // Get the selected date from the date picker
+        const selectedDate = document.getElementById("datePicker").value;
+
+        // Check if a date is selected
+        if (selectedDate === "") {
+            document.getElementById("countdown").innerHTML = "Please select a date.";
+            return;
+        }
+
+        // Set the date we're counting down to
+        const countDownDate = new Date(selectedDate).getTime();
+
+        // Update the countdown every 1 second
+        const x = setInterval(function() {
+            // Get the current date and time
+            const now = new Date().getTime();
+
+            // Calculate the remaining time
+            const distance = countDownDate - now;
+
+            // Calculate days, hours, minutes, and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the countdown
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            // If the countdown is over, display a message
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    }
+
+    // Initial call to set up the countdown based on the default selected date
+    updateCountdown();
+</script>
+
+</body>
+</html>
